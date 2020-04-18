@@ -3,6 +3,8 @@ LABEL maintainer="Abhinav A V <abhai2k@gmail.com>"
 
 ENV PUID=1000
 ENV PGID=1000
+ENV UNAME="abc"
+ENV GNAME="abc"
 
 ARG S6_OVERLAY_RELEASE=https://github.com/just-containers/s6-overlay/releases/latest/download/s6-overlay-amd64.tar.gz
 ENV S6_OVERLAY_RELEASE=${S6_OVERLAY_RELEASE}
@@ -16,12 +18,12 @@ RUN apk upgrade --update --no-cache \
 
 RUN mkdir -p /etc/cont-finish.d \
   /etc/cont-init.d \
-  /etc/fix-attrs \
+  /etc/fix-attrs.d \
   /etc/services.d
 
 # Create dummy user
-RUN addgroup -g ${PGID} abc && \
-  adduser -D -H -u ${PUID} -G abc abc
+RUN addgroup -g ${PGID} ${GNAME} && \
+  adduser -DH -u ${PUID} -G ${GNAME} ${UNAME}
 
 # Init
 ENTRYPOINT [ "/init" ]
