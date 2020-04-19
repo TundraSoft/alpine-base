@@ -12,18 +12,16 @@ ENV S6_OVERLAY_RELEASE=${S6_OVERLAY_RELEASE}
 ADD ${S6_OVERLAY_RELEASE} /tmp/s6overlay.tar.gz
 
 RUN apk upgrade --update --no-cache \
+  && apk add tzdata \
   && rm -rf /var/cache/apk/* \
   && tar xzf /tmp/s6overlay.tar.gz -C / \
   && rm /tmp/s6overlay.tar.gz
 
-RUN mkdir -p /etc/cont-finish.d \
-  /etc/cont-init.d \
-  /etc/fix-attrs.d \
-  /etc/services.d
+ADD /rootfs /
 
 # Create dummy user
 RUN addgroup -g ${PGID} ${GNAME} && \
-  adduser -DH -u ${PUID} -G ${GNAME} ${UNAME}
+  adduser -DH -s /sbin/nologin -u ${PUID} ${UNAME} -G ${GNAME} 
 
 # Init
 ENTRYPOINT [ "/init" ]
