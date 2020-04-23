@@ -12,3 +12,9 @@ The s6-overlay-builder project is a series of init scripts and utilities to ease
 ### Time Zone
 
 Timezone is available pre-packaged. To set timezone, pass environment variable TZ, example TZ=Asia/Kolkata
+**NOTE** This does not setup NTP or other service. The time is still fetched from the underlying host. The timezone is applied thereby
+displaying the correct time.
+
+### User & Group
+
+Default user and group created with UID as 1000 and GID as 1000. Username and Group Name is abc abc (yes not really creative at this point)
